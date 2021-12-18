@@ -55,6 +55,15 @@ $config = [
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ],
+        'assetManager' => [
+            'bundles' => [
+                \yii\bootstrap4\BootstrapAsset::class => [
+                    'css' => [
+                        ''
+                    ]
+                ]
+            ]
+        ]
     ],
     'params' => $params,
 ];
