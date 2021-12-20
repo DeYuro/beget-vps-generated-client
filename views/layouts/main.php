@@ -37,8 +37,9 @@ AppAsset::register($this);
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a class="navbar-brand" href="#">Hidden brand</a>
             <?php
+            $actionId = $this->context->action->id;
             $menuItems = [
-                ['label' => 'main', 'url' => ['/']],
+                ['label' => 'main', 'active'=> $actionId === 'index', 'url' => ['/']],
                 ['label' => 'Form', 'url' => ['/site/form']],
                 ['label' => 'About', 'url' => ['/site/about']],
                 ['label' => 'FAQ', 'url' => ['/site/faq']],
