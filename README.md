@@ -13,6 +13,12 @@ The template contains the basic features including user login/logout and a conta
 It includes all commonly used configurations that would allow you to focus on adding new
 features to your application.
 
+GII
+---
+
+> php yii gii/model --tableName="order" --modelClass="Order" --ns="app\lib\order\models" --queryClass="OrderQuery" --queryNs="app\lib\order\models" --generateQuery=1
+
+
 [![Latest Stable Version](https://img.shields.io/packagist/v/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
 [![Total Downloads](https://img.shields.io/packagist/dt/yiisoft/yii2-app-basic.svg)](https://packagist.org/packages/yiisoft/yii2-app-basic)
 [![build](https://github.com/yiisoft/yii2-app-basic/workflows/build/badge.svg)](https://github.com/yiisoft/yii2-app-basic/actions?query=workflow%3Abuild)
