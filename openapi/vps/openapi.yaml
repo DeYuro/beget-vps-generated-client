@@ -1,0 +1,2659 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/apps/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+servers:
+    - url: https://api.beget.com
+paths:
+    /v1/vps/archive/{id}:
+        delete:
+            tags:
+                - ManageService
+            operationId: ManageService_Unarchive
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_UnarchiveResponse'
+    /v1/vps/backup:
+        get:
+            tags:
+                - BackupService
+            operationId: BackupService_GetAvailableCopies
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Backup_GetAvailableCopiesResponse'
+    /v1/vps/backup/orders:
+        get:
+            tags:
+                - BackupService
+            operationId: BackupService_GetOrders
+            parameters:
+                - name: limit
+                  in: query
+                  description: Количество записей на страницу (от 1 до 100)
+                  schema:
+                    type: string
+                - name: offset
+                  in: query
+                  description: Смещение относительно нулевой (последней) записи
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Backup_GetOrdersResponse'
+    /v1/vps/configuration:
+        get:
+            tags:
+                - ManageService
+            description: Возвращает досупные варианты конфигурации Vps (список ОС и тарифных планов)
+            operationId: ManageService_GetAvailableConfiguration
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetAvailableConfigurationResponse'
+    /v1/vps/network:
+        get:
+            tags:
+                - NetworkService
+            operationId: NetworkService_GetNetworkInfo
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Network_GetNetworkInfoResponse'
+        post:
+            tags:
+                - NetworkService
+            description: Заказ дополнительных IP-адресов для пользователя
+            operationId: NetworkService_OrderIpAddress
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Network_OrderIpAddressRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Network_OrderIpAddressResponse'
+    /v1/vps/network/detach/{ip_address}:
+        delete:
+            tags:
+                - ManageService
+            description: Открепление дополнительного IP адреса пользователя от VPS
+            operationId: ManageService_DetachIpAddress
+            parameters:
+                - name: ip_address
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_DetachIpAddressResponse'
+    /v1/vps/network/{ip_address}:
+        delete:
+            tags:
+                - NetworkService
+            description: Отмена заказа дополнительного IP адреса пользователя
+            operationId: NetworkService_RemoveIpAddress
+            parameters:
+                - name: ip_address
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Network_RemoveIpAddressResponse'
+    /v1/vps/private-network:
+        post:
+            tags:
+                - NetworkService
+            operationId: NetworkService_CreatePrivateNetwork
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Network_CreatePrivateNetworkResponse'
+    /v1/vps/private-network/{network_id}/suggested-address:
+        post:
+            tags:
+                - NetworkService
+            operationId: NetworkService_SuggestPrivateAddress
+            parameters:
+                - name: network_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Network_SuggestPrivateAddressRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Network_SuggestPrivateAddressResponse'
+    /v1/vps/server:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет команду на создание новой Vps и ее запуск (https://jira.beget.ru/browse/BH-327)
+            operationId: ManageService_CreateVps
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_CreateVpsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_CreateVpsResponse'
+    /v1/vps/server/list:
+        get:
+            tags:
+                - ManageService
+            description: Возвращает список Vps с некоторыми параметрами
+            operationId: ManageService_GetList
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetListResponse'
+    /v1/vps/server/statuses:
+        get:
+            tags:
+                - ManageService
+            description: Возвращает статусы всех Vps
+            operationId: ManageService_GetStatuses
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetStatusesResponse'
+    /v1/vps/server/{id}:
+        get:
+            tags:
+                - ManageService
+            description: Возвращает информацию по одной конкретной Vps
+            operationId: ManageService_GetInfo
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetInfoResponse'
+    /v1/vps/server/{id}/configuration:
+        put:
+            tags:
+                - ManageService
+            description: Отправляет запрос на смену конфигурации Vps (с перезагрузкой)
+            operationId: ManageService_ChangeConfiguration
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_ChangeConfigurationRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_ChangeConfigurationResponse'
+    /v1/vps/server/{id}/info:
+        put:
+            tags:
+                - ManageService
+            description: Обновляет информацию о Vps (которая отображается в панели)
+            operationId: ManageService_UpdateInfo
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_UpdateInfoRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_UpdateInfoResponse'
+    /v1/vps/server/{id}/reboot:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет команду на рестарт Vps
+            operationId: ManageService_RebootVps
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_RebootVpsResponse'
+    /v1/vps/server/{id}/reinstall:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет запрос на переустановку ОС (с перезагрузкой и уничтожением всех данных)
+            operationId: ManageService_Reinstall
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_ReinstallRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_ReinstallResponse'
+    /v1/vps/server/{id}/remove:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет команду на удаление Vps
+            operationId: ManageService_RemoveVps
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_RemoveVpsResponse'
+    /v1/vps/server/{id}/rescue:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет команду на перевод Vps в rescue-режим
+            operationId: ManageService_StartRescue
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_StartRescueResponse'
+        delete:
+            tags:
+                - ManageService
+            description: Отправляет запрос на отключение rescue-режима и перезагрузку Vps
+            operationId: ManageService_StopRescue
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_StopRescueResponse'
+    /v1/vps/server/{id}/reset:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет команду на рестарт Vps
+            operationId: ManageService_ResetVps
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_ResetVpsResponse'
+    /v1/vps/server/{id}/start:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет команду на запуск Vps
+            operationId: ManageService_StartVps
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_StartVpsResponse'
+    /v1/vps/server/{id}/stop:
+        post:
+            tags:
+                - ManageService
+            description: Отправляет команду на остановку Vps
+            operationId: ManageService_StopVps
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_StopVpsResponse'
+    /v1/vps/snapshot:
+        get:
+            tags:
+                - SnapshotService
+            description: get all snapshots
+            operationId: SnapshotService_GetAll
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Snapshot_GetAllResponse'
+        post:
+            tags:
+                - SnapshotService
+            description: create a snapshot
+            operationId: SnapshotService_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Snapshot_CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Snapshot_CreateResponse'
+    /v1/vps/snapshot/calculator:
+        post:
+            tags:
+                - SnapshotService
+            description: create cost calculator for snapshot creating
+            operationId: SnapshotService_CreateCalculator
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Snapshot_CreateCalculatorRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Snapshot_CreateCalculatorResponse'
+    /v1/vps/snapshot/restore:
+        get:
+            tags:
+                - SnapshotService
+            description: get restore list
+            operationId: SnapshotService_GetAllRestores
+            parameters:
+                - name: id
+                  in: query
+                  description: snapshot id. Optional, full list at 0
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Snapshot_GetAllRestoresResponse'
+    /v1/vps/snapshot/{id}:
+        put:
+            tags:
+                - SnapshotService
+            description: edit snapshot user fields
+            operationId: SnapshotService_Edit
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Snapshot_EditRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Snapshot_EditResponse'
+        delete:
+            tags:
+                - SnapshotService
+            description: remove the snapshot
+            operationId: SnapshotService_Remove
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Snapshot_RemoveResponse'
+    /v1/vps/snapshot/{id}/restore:
+        post:
+            tags:
+                - SnapshotService
+            description: create a restore for the snapshot
+            operationId: SnapshotService_Restore
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Snapshot_RestoreRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Snapshot_RestoreResponse'
+    /v1/vps/software:
+        get:
+            tags:
+                - ManageService
+            description: Возвращает список доступного для установки ПО
+            operationId: ManageService_GetAvailableSoftware
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetAvailableSoftwareResponse'
+    /v1/vps/software/requirements:
+        post:
+            tags:
+                - ManageService
+            operationId: ManageService_CheckSoftwareRequirements
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_CheckSoftwareRequirementsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_CheckSoftwareRequirementsResponse'
+    /v1/vps/sshKey:
+        get:
+            tags:
+                - SshKeyService
+            operationId: SshKeyService_GetAll
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SshKey_GetAllResponse'
+        post:
+            tags:
+                - SshKeyService
+            operationId: SshKeyService_Add
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SshKey_AddRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SshKey_AddResponse'
+    /v1/vps/sshKey/{id}:
+        delete:
+            tags:
+                - SshKeyService
+            operationId: SshKeyService_Remove
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: force
+                  in: query
+                  description: Принудительно удалить, даже если используется в VPS
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SshKey_RemoveResponse'
+    /v1/vps/statistic/cpu-details/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetCpuDetails
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: period
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetCpuDetailsResponse'
+    /v1/vps/statistic/cpu/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetCpu
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: period
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetCpuResponse'
+    /v1/vps/statistic/disk-usage/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetDiskUsage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: period
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetDiskUsageResponse'
+    /v1/vps/statistic/disk/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetDisk
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: period
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetDiskResponse'
+    /v1/vps/statistic/load-average/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetLoadAverage
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: period
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetLoadAverageResponse'
+    /v1/vps/statistic/memory/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetMemory
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: period
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetMemoryResponse'
+    /v1/vps/statistic/network/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetNetwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: period
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetNetworkResponse'
+    /v1/vps/statistic/processes/{id}:
+        get:
+            tags:
+                - StatisticService
+            operationId: StatisticService_GetProcessList
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Statistic_GetProcessListResponse'
+    /v1/vps/{id}/backup/{copy_id}:
+        get:
+            tags:
+                - BackupService
+            operationId: BackupService_GetBackupFileList
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: copy_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: path
+                  in: query
+                  description: Путь для отображения
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Backup_GetBackupFileListResponse'
+    /v1/vps/{id}/backup/{copy_id}/file:
+        post:
+            tags:
+                - BackupService
+            operationId: BackupService_RestoreFile
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: copy_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Backup_RestoreFileRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Backup_RestoreFileResponse'
+    /v1/vps/{id}/backup/{copy_id}/server:
+        post:
+            tags:
+                - BackupService
+            operationId: BackupService_RestoreServer
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: copy_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Backup_RestoreServerRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Backup_RestoreServerResponse'
+    /v1/vps/{id}/fm:
+        post:
+            tags:
+                - ManageService
+            description: Возвращает необходимые параметры сессии для перехода в файловый менеджер
+            operationId: ManageService_GetFileManagerSettings
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetFileManagerSettingsResponse'
+    /v1/vps/{id}/history:
+        get:
+            tags:
+                - ManageService
+            description: Возвращат историю состояний VPS
+            operationId: ManageService_GetHistory
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetHistoryResponse'
+    /v1/vps/{id}/network/{ip_address}:
+        post:
+            tags:
+                - ManageService
+            description: Прикрепление дополнительного IP адреса пользователя к VPS
+            operationId: ManageService_AttachIpAddress
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: ip_address
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_AttachIpAddressRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_AttachIpAddressResponse'
+    /v1/vps/{id}/password:
+        put:
+            tags:
+                - ManageService
+            operationId: ManageService_ResetPassword
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_ResetPasswordResponse'
+    /v1/vps/{id}/private-network/{network_id}:
+        post:
+            tags:
+                - ManageService
+            description: Добавляет VPS к приватной сети
+            operationId: ManageService_AttachToPrivateNetwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: network_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_AttachToPrivateNetworkRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_AttachToPrivateNetworkResponse'
+        delete:
+            tags:
+                - ManageService
+            description: Удаляет VPS из приватной сети
+            operationId: ManageService_DetachFromPrivateNetwork
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: network_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_DetachFromPrivateNetworkResponse'
+    /v1/vps/{id}/software:
+        get:
+            tags:
+                - ManageService
+            description: Возвращает список установленного ПО на сервере
+            operationId: ManageService_GetInstalledSoftware
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_GetInstalledSoftwareResponse'
+    /v1/vps/{id}/ssh/access:
+        put:
+            tags:
+                - ManageService
+            description: Изменение возможности доступа к пользовательской машине через SSH-ключи BeGet
+            operationId: ManageService_ChangeSshAccess
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Manage_ChangeSshAccessRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_ChangeSshAccessResponse'
+    /v1/vps/{id}/sshKey/{ssh_key_id}:
+        post:
+            tags:
+                - ManageService
+            description: Добавляет ssh-ключ к VPS
+            operationId: ManageService_AttachSshKey
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: ssh_key_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_AttachSshKeyResponse'
+        delete:
+            tags:
+                - ManageService
+            description: Удаляет ssh-ключ из VPS
+            operationId: ManageService_DetachSshKey
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: ssh_key_id
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Manage_DetachSshKeyResponse'
+components:
+    schemas:
+        Backup_GetAvailableCopiesResponse:
+            properties:
+                copy:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_CopyInfo'
+                    description: Список копий
+        Backup_GetBackupFileListResponse:
+            properties:
+                file:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_FileInfo'
+                    description: Список файлов
+        Backup_GetOrdersResponse:
+            properties:
+                order:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_OrderInfo'
+        Backup_RestoreFileRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор VPS (uuid)
+                copy_id:
+                    type: string
+                    description: Идентификатор копии
+                    format: uint64
+                path:
+                    type: array
+                    items:
+                        type: string
+                    description: Список путей для восстановления
+                affect_live:
+                    type: boolean
+                    description: Восстановление без выключения VPS
+                target:
+                    type: string
+                    description: Директория, в которую будет происходить восстановление. По-умолчанию - "/"
+        Backup_RestoreFileResponse:
+            properties:
+                order:
+                    $ref: '#/components/schemas/Structures_OrderInfo'
+                error:
+                    $ref: '#/components/schemas/Backup_RestoreFileResponse_Error'
+        Backup_RestoreFileResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Backup_RestoreServerRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор VPS, в который происходит восстановление (uuid)
+                copy_id:
+                    type: string
+                    description: Идентификатор копии
+                    format: uint64
+        Backup_RestoreServerResponse:
+            properties:
+                order:
+                    $ref: '#/components/schemas/Structures_OrderInfo'
+                error:
+                    $ref: '#/components/schemas/Backup_RestoreServerResponse_Error'
+        Backup_RestoreServerResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Manage_AttachIpAddressRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор VPS
+                ip_address:
+                    type: string
+                    description: IP-адрес
+        Manage_AttachIpAddressResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_AttachIpAddressResponse_Error'
+        Manage_AttachIpAddressResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Manage_AttachSshKeyResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_AttachSshKeyResponse_Error'
+        Manage_AttachSshKeyResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_AttachToPrivateNetworkRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор VPS
+                network_id:
+                    type: string
+                    description: Идентификатор сети
+                address:
+                    type: string
+                    description: желаемый ip-адрес. Если пустая строка, то выберется случайный
+        Manage_AttachToPrivateNetworkResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_AttachToPrivateNetworkResponse_Error'
+        Manage_AttachToPrivateNetworkResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Manage_ChangeConfigurationRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор Vps (uuid)
+                configuration_id:
+                    type: string
+                    description: Идентификатор конфигурации
+        Manage_ChangeConfigurationResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_ChangeConfigurationResponse_Error'
+        Manage_ChangeConfigurationResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_ChangeSshAccessRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор VPS
+                beget_ssh_access_allowed:
+                    type: boolean
+                    description: Согласие на доступ к пользовательской машине через SSH-ключи BeGet Необходимо для использования пользователем файлового менеджера
+        Manage_ChangeSshAccessResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_ChangeSshAccessResponse_Error'
+        Manage_ChangeSshAccessResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+                extra:
+                    type: string
+                    description: Дополнительная информация
+        Manage_CheckSoftwareRequirementsRequest:
+            properties:
+                operating_system_id:
+                    type: integer
+                    description: Идентификатор ОС
+                    format: uint32
+                info:
+                    $ref: '#/components/schemas/Manage_SoftwareInstallInfo'
+        Manage_CheckSoftwareRequirementsResponse:
+            properties:
+                error:
+                    $ref: '#/components/schemas/Manage_CheckSoftwareRequirementsResponse_Error'
+        Manage_CheckSoftwareRequirementsResponse_Error:
+            properties:
+                wordpress_error:
+                    type: string
+                    description: oneof{type}
+                    format: enum
+        Manage_CreateVpsRequest:
+            properties:
+                display_name:
+                    type: string
+                    description: Отображаемое имя Vps (required)
+                hostname:
+                    type: string
+                    description: Имя хоста (в ОС)
+                description:
+                    type: string
+                    description: Дескрипшн (опциональный). просто какой-нить текст
+                configuration_id:
+                    type: string
+                    description: Идентификатор конфигурации (required)
+                operating_system_id:
+                    type: integer
+                    description: Идентификатор ОС oneof{source}
+                    format: uint32
+                snapshot_id:
+                    type: string
+                    description: Идентификатор снапшота, который восстановится в новую Vps oneof{source}
+                    format: uint64
+                ssh_keys:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: ID публичных ssh-ключей (предварительно созданные в системе)
+                password:
+                    type: string
+                    description: Пароль (должен включать минимум 1 upper, 1 lower, 1 digit, 1 special char. Мин длина - 8 символов)
+                beget_ssh_access_allowed:
+                    type: boolean
+                    description: Согласие на доступ к пользовательской машине через SSH-ключи BeGet Необходимо для использования пользователем файлового менеджера
+                software:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_SoftwareInstallInfo'
+                    description: Информация о ПО, которое необходимо установить
+                private_networks:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_PrivateNetworkInfo'
+                    description: Приватные сети, к которым необходимо подключить VPS
+        Manage_CreateVpsResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_CreateVpsResponse_Error'
+        Manage_CreateVpsResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+                variable_error:
+                    $ref: '#/components/schemas/Manage_CreateVpsResponse_Error_SoftwareVariableError'
+        Manage_CreateVpsResponse_Error_SoftwareVariableError:
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+                variable_name:
+                    type: array
+                    items:
+                        type: string
+        Manage_DetachFromPrivateNetworkResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_DetachFromPrivateNetworkResponse_Error'
+        Manage_DetachFromPrivateNetworkResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Manage_DetachIpAddressResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_DetachIpAddressResponse_Error'
+        Manage_DetachIpAddressResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Manage_DetachSshKeyResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_DetachSshKeyResponse_Error'
+        Manage_DetachSshKeyResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_GetAvailableConfigurationResponse:
+            properties:
+                configurations:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_VpsConfiguration'
+                operating_systems:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_OperatingSystem'
+        Manage_GetAvailableSoftwareResponse:
+            properties:
+                software:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_GetAvailableSoftwareResponse_SoftwareInfo'
+        Manage_GetAvailableSoftwareResponse_SoftwareInfo:
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+                name:
+                    type: string
+                    description: Внутреннее имя (напр. redmine)
+                display_name:
+                    type: string
+                    description: Отображаемое имя (напр. Redmine)
+                version:
+                    type: string
+                    description: Версия (напр. 1.0.1)
+                type:
+                    type: string
+                    description: Тип ПО (панель управления, обычное ПО)
+                    format: enum
+                description:
+                    type: string
+                    description: Описание ПО
+                description_version:
+                    type: string
+                    description: Дополнительное описание для конкретной версии ПО
+                image_id:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: Список ID образов, для которых возможна установка этого ПО
+                variable:
+                    type: array
+                    items:
+                        type: string
+                    description: Список дополнительных полей, которые необходимо передать для установки ПО
+                requirements:
+                    $ref: '#/components/schemas/Manage_GetAvailableSoftwareResponse_SoftwareInfo_Requirements'
+        Manage_GetAvailableSoftwareResponse_SoftwareInfo_Requirements:
+            properties:
+                cpu_count:
+                    type: integer
+                    description: Количество ядер процессора, шт
+                    format: uint32
+                disk_size:
+                    type: integer
+                    description: Размер диска, мб
+                    format: uint32
+                memory:
+                    type: integer
+                    description: Объем оперативной памяти, мб
+                    format: uint32
+        Manage_GetFileManagerSettingsResponse:
+            properties:
+                credentials:
+                    $ref: '#/components/schemas/Manage_GetFileManagerSettingsResponse_Credentials'
+                error:
+                    $ref: '#/components/schemas/Manage_GetFileManagerSettingsResponse_Error'
+        Manage_GetFileManagerSettingsResponse_Credentials:
+            properties:
+                type:
+                    type: string
+                user:
+                    type: string
+                host:
+                    type: string
+                connection_id:
+                    type: integer
+                    format: uint32
+                path:
+                    type: string
+        Manage_GetFileManagerSettingsResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Manage_GetHistoryResponse:
+            properties:
+                history:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_HistoryItem'
+        Manage_GetInfoResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+        Manage_GetInstalledSoftwareResponse:
+            properties:
+                software:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_GetInstalledSoftwareResponse_InstalledSoftwareInfo'
+        Manage_GetInstalledSoftwareResponse_InstalledSoftwareInfo:
+            properties:
+                name:
+                    type: string
+                    description: Внутреннее имя (напр. redmine)
+                display_name:
+                    type: string
+                    description: Отображаемое имя (напр. Redmine)
+                version:
+                    type: string
+                    description: Версия (напр. 1.0.1)
+                type:
+                    type: string
+                    description: Тип ПО (панель управления, обычное ПО)
+                    format: enum
+                address:
+                    type: string
+                    description: Адрес для доступа к ПО через http
+                status:
+                    type: string
+                    description: Статус процесса установки ПО
+                    format: enum
+        Manage_GetListResponse:
+            properties:
+                vps:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_VpsInfo'
+        Manage_GetStatusesResponse:
+            properties:
+                statuses:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_GetStatusesResponse_StatusInfo'
+        Manage_GetStatusesResponse_StatusInfo:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор Vps (uuid)
+                status:
+                    type: string
+                    format: enum
+                rescue_mode:
+                    type: boolean
+                    description: Включен rescue-режим
+                migrating:
+                    type: boolean
+                    description: VPS находится в состоянии миграции на другой хост
+                manage_enabled:
+                    type: boolean
+                    description: Доступно ли управление VPS
+                restoring:
+                    type: boolean
+                    description: VPS находится в состоянии восстановления из резервной копии
+                archived:
+                    type: boolean
+                    description: VPS заархивирована, управление невозможно
+                unblocking:
+                    type: boolean
+                    description: VPS разблокируется после отключения по оплате или архивации
+                unarchiving:
+                    type: boolean
+                    description: VPS в процессе разархивации
+        Manage_HistoryItem:
+            properties:
+                date:
+                    type: string
+                type:
+                    type: string
+                    format: enum
+                has_error:
+                    type: boolean
+        Manage_PrivateNetworkInfo:
+            properties:
+                id:
+                    type: string
+                    description: ID сети
+                address:
+                    type: string
+                    description: желаемый ip-адрес. Если пустая строка, то выберется случайный
+        Manage_RebootVpsResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_RebootVpsResponse_Error'
+        Manage_RebootVpsResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_ReinstallRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор Vps (uuid)
+                operating_system_id:
+                    type: integer
+                    description: Идентификатор ОС (required)
+                    format: uint32
+                ssh_keys:
+                    type: array
+                    items:
+                        type: integer
+                        format: uint32
+                    description: ID публичных ssh-ключей (предварительно созданные в системе)
+                password:
+                    type: string
+                    description: Пароль (должен включать минимум 1 upper, 1 lower, 1 digit, 1 special char. Мин длина - 8 символов)
+                software:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Manage_SoftwareInstallInfo'
+                    description: Информация о ПО, которое необходимо установить
+        Manage_ReinstallResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_ReinstallResponse_Error'
+        Manage_ReinstallResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+                variable_error:
+                    $ref: '#/components/schemas/Manage_ReinstallResponse_Error_SoftwareVariableError'
+        Manage_ReinstallResponse_Error_SoftwareVariableError:
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+                variable_name:
+                    type: array
+                    items:
+                        type: string
+        Manage_RemoveVpsResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_RemoveVpsResponse_Error'
+        Manage_RemoveVpsResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_ResetPasswordResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_ResetPasswordResponse_Error'
+        Manage_ResetPasswordResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_ResetVpsResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_ResetVpsResponse_Error'
+        Manage_ResetVpsResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_SoftwareInstallInfo:
+            properties:
+                id:
+                    type: integer
+                    description: ID устанавливаемого ПО
+                    format: uint32
+                variable:
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: Дополнительные переменные для установки
+        Manage_StartRescueResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_StartRescueResponse_Error'
+        Manage_StartRescueResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_StartVpsResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_StartVpsResponse_Error'
+        Manage_StartVpsResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_StopRescueResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_StopRescueResponse_Error'
+        Manage_StopRescueResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_StopVpsResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_StopVpsResponse_Error'
+        Manage_StopVpsResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_UnarchiveResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+        Manage_UpdateInfoRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор Vps (uuid)
+                display_name:
+                    type: string
+                    description: Отображаемое имя Vps
+                hostname:
+                    type: string
+                    description: Имя хоста (в ОС)
+                description:
+                    type: string
+                    description: Дескрипшн
+        Manage_UpdateInfoResponse:
+            properties:
+                vps:
+                    $ref: '#/components/schemas/Manage_VpsInfo'
+                error:
+                    $ref: '#/components/schemas/Manage_UpdateInfoResponse_Error'
+        Manage_UpdateInfoResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Manage_VpsConfiguration:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор конфигурации
+                name:
+                    type: string
+                    description: Имя конфигурации Vps
+                cpu_count:
+                    type: integer
+                    description: Количество ядер процессора, шт
+                    format: uint32
+                disk_size:
+                    type: integer
+                    description: Объем дисковой квоты, Мб
+                    format: uint32
+                memory:
+                    type: integer
+                    description: Объем оперативной памяти, Мб
+                    format: uint32
+                price_day:
+                    type: number
+                    description: Цена в день
+                    format: double
+                price_month:
+                    type: number
+                    description: Цена в месяц
+                    format: double
+                available:
+                    type: boolean
+                    description: Доступен ли для заказа пользователем
+                custom:
+                    type: boolean
+                    description: Является ли конфигурация персональной
+            description: Описывает параметры Vps
+        Manage_VpsInfo:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор Vps (uuid)
+                slug:
+                    type: string
+                    description: ЧПУ-френдли имя Vps (может быть пустой строкой)
+                display_name:
+                    type: string
+                    description: Отображаемое имя Vps
+                hostname:
+                    type: string
+                    description: Имя хоста (в ОС)
+                configuration:
+                    $ref: '#/components/schemas/Manage_VpsConfiguration'
+                status:
+                    type: string
+                    description: Текущий статус Vps
+                    format: enum
+                ssh_keys:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_SshKeyInfo'
+                    description: Информация об ssh-ключах
+                has_password:
+                    type: boolean
+                    description: Возможен ли вход по паролю
+                manage_enabled:
+                    type: boolean
+                    description: Доступно ли управление данной Vps
+                description:
+                    type: string
+                    description: Дескрипшн для пользователя
+                date_create:
+                    type: string
+                    description: Дата создания (в формате W3C)
+                operating_system:
+                    $ref: '#/components/schemas/Structures_OperatingSystem'
+                ip_address:
+                    type: string
+                    description: Основной IP-адрес
+                rescue_mode:
+                    type: boolean
+                    description: Включен rescue-режим
+                migrating:
+                    type: boolean
+                    description: VPS находится в состоянии миграции на другой хост
+                host_unavailable:
+                    type: boolean
+                    description: Нет возможности получать информацию с хоста, на котором находится vps
+                unblocking:
+                    type: boolean
+                    description: VPS находится в состоянии разблокировки
+                restoring:
+                    type: boolean
+                    description: VPS находится в состоянии восстановления из резервной копии
+                disk_used:
+                    type: string
+                    description: Занято места на главном разделе, Мб
+                    format: uint64
+                disk_left:
+                    type: string
+                    description: Осталось свободного места на главном разделе, Мб
+                    format: uint64
+                additional_ip_address:
+                    type: array
+                    items:
+                        type: string
+                    description: Информация о дополнительных IP-адресах VPS
+                beget_ssh_access_allowed:
+                    type: boolean
+                    description: Согласие на доступ к пользовательской машине через SSH-ключи BeGet Необходимо для использования пользователем файлового менеджера
+                archived:
+                    type: boolean
+                    description: VPS заархивирована, управление невозможно
+                unarchiving:
+                    type: boolean
+                    description: VPS в процессе разархивации
+                private_network:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_AttachedPrivateNetwork'
+                    description: Приватные сети к которым подключена VPS
+        Network_CreatePrivateNetworkResponse:
+            properties:
+                network:
+                    $ref: '#/components/schemas/Structures_PrivateNetwork'
+                error:
+                    $ref: '#/components/schemas/Network_CreatePrivateNetworkResponse_Error'
+        Network_CreatePrivateNetworkResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Network_GetNetworkInfoResponse:
+            properties:
+                ip:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_IpInfo'
+                    description: Основные IP-адреса пользователя
+                additional_ip:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_AdditionalIpInfo'
+                    description: Дополнительные IP-адреса пользователя
+                private_network:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_PrivateNetwork'
+                    description: Приватные сети пользователя
+        Network_OrderIpAddressRequest:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор VPS, к которому следует добавить дополнительный IP-адрес Поле не является обязательным
+        Network_OrderIpAddressResponse:
+            properties:
+                ip_address:
+                    type: string
+                    description: Успешый заказ дополнительного IP-адресоа oneof{result}
+                error:
+                    $ref: '#/components/schemas/Network_OrderIpAddressResponse_Error'
+        Network_OrderIpAddressResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Network_RemoveIpAddressResponse:
+            properties:
+                ip_address:
+                    type: string
+                    description: Успешое удаление дополнительного IP-адресоа oneof{result}
+                error:
+                    $ref: '#/components/schemas/Network_RemoveIpAddressResponse_Error'
+        Network_RemoveIpAddressResponse_Error:
+            properties:
+                code:
+                    type: string
+                    description: Код ошибки
+                    format: enum
+                message:
+                    type: string
+                    description: Сообщение об ошибке
+        Network_SuggestPrivateAddressRequest:
+            properties:
+                network_id:
+                    type: string
+                vps_id:
+                    type: string
+        Network_SuggestPrivateAddressResponse:
+            properties:
+                ip:
+                    type: string
+        Snapshot_CreateCalculatorRequest:
+            properties:
+                vps_id:
+                    type: string
+                    description: vps id (uuid)
+        Snapshot_CreateCalculatorResponse:
+            properties:
+                price_day:
+                    type: number
+                    description: cost per day in rub
+                    format: double
+                price_day_gb:
+                    type: number
+                    description: cost per day for gb in rub
+                    format: double
+                size:
+                    type: integer
+                    description: size in gb
+                    format: uint32
+        Snapshot_CreateRequest:
+            properties:
+                vps_id:
+                    type: string
+                    description: vps id (uuid)
+                description:
+                    type: string
+                    description: user title for snapshot
+                consistent:
+                    type: boolean
+                    description: stop vps before snapshot?
+        Snapshot_CreateResponse:
+            properties:
+                snapshot:
+                    $ref: '#/components/schemas/Snapshot_Snapshot'
+                error:
+                    $ref: '#/components/schemas/Snapshot_CreateResponse_Error'
+        Snapshot_CreateResponse_Error:
+            properties:
+                message:
+                    type: string
+                code:
+                    type: string
+                    format: enum
+        Snapshot_EditRequest:
+            properties:
+                id:
+                    type: string
+                    description: snapshot id
+                    format: uint64
+                description:
+                    type: string
+                    description: user title for snapshot
+        Snapshot_EditResponse:
+            properties:
+                snapshot:
+                    $ref: '#/components/schemas/Snapshot_Snapshot'
+        Snapshot_GetAllResponse:
+            properties:
+                snapshot:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Snapshot_Snapshot'
+        Snapshot_GetAllRestoresResponse:
+            properties:
+                restore:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Snapshot_Restore'
+        Snapshot_RemoveResponse:
+            properties:
+                snapshot:
+                    $ref: '#/components/schemas/Snapshot_Snapshot'
+                error:
+                    $ref: '#/components/schemas/Snapshot_RemoveResponse_Error'
+        Snapshot_RemoveResponse_Error:
+            properties:
+                message:
+                    type: string
+                code:
+                    type: string
+                    format: enum
+        Snapshot_RequiredConfiguration:
+            properties:
+                cpu_count:
+                    type: integer
+                    description: CPU cores
+                    format: uint32
+                disk_size:
+                    type: integer
+                    description: disk size, Mb
+                    format: uint32
+                memory:
+                    type: integer
+                    description: RAM, Mb
+                    format: uint32
+        Snapshot_Restore:
+            properties:
+                id:
+                    type: string
+                    description: restore order id
+                    format: uint64
+                snapshot:
+                    $ref: '#/components/schemas/Snapshot_Snapshot'
+                vps_id:
+                    type: string
+                    description: target vps id
+                vps_name:
+                    type: string
+                    description: target vps name
+                target_type:
+                    type: string
+                    description: 'restore type: existing or new vps'
+                    format: enum
+                date_create:
+                    type: string
+                    description: start restore datetime (RFC3339)
+                date_complete:
+                    type: string
+                    description: finish restore datetime (RFC3339)
+                status:
+                    type: string
+                    description: current restore status
+                    format: enum
+        Snapshot_RestoreRequest:
+            properties:
+                id:
+                    type: string
+                    description: snapshot id
+                    format: uint64
+                vps_id:
+                    type: string
+                    description: target vps to restore
+        Snapshot_RestoreResponse:
+            properties:
+                restore:
+                    $ref: '#/components/schemas/Snapshot_Restore'
+                error:
+                    $ref: '#/components/schemas/Snapshot_RestoreResponse_Error'
+        Snapshot_RestoreResponse_Error:
+            properties:
+                message:
+                    type: string
+                code:
+                    type: string
+                    format: enum
+        Snapshot_Snapshot:
+            properties:
+                id:
+                    type: string
+                    description: snapshot id
+                    format: uint64
+                vps_id:
+                    type: string
+                    description: vps id (uuid)
+                vps_name:
+                    type: string
+                    description: vps name
+                date_create:
+                    type: string
+                    description: snapshot create date W3C
+                size:
+                    type: string
+                    description: bytes
+                    format: uint64
+                status:
+                    type: string
+                    description: current snapshot status
+                    format: enum
+                operating_system:
+                    $ref: '#/components/schemas/Structures_OperatingSystem'
+                description:
+                    type: string
+                    description: user title for snapshot
+                configuration:
+                    $ref: '#/components/schemas/Snapshot_RequiredConfiguration'
+                price_day:
+                    type: number
+                    description: cost per day in rub
+                    format: double
+        SshKey_AddRequest:
+            properties:
+                name:
+                    type: string
+                    description: Имя ключа (для удобства пользователя)
+                public_key:
+                    type: string
+                    description: Публичный ключ в формате, описанном в https://tools.ietf.org/html/rfc4253#section-6.6
+        SshKey_AddResponse:
+            properties:
+                key:
+                    $ref: '#/components/schemas/Structures_SshKeyInfo'
+                error:
+                    $ref: '#/components/schemas/SshKey_AddResponse_Error'
+        SshKey_AddResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        SshKey_GetAllResponse:
+            properties:
+                keys:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Structures_SshKeyInfo'
+        SshKey_RemoveResponse:
+            properties:
+                key:
+                    $ref: '#/components/schemas/Structures_SshKeyInfo'
+                error:
+                    $ref: '#/components/schemas/SshKey_RemoveResponse_Error'
+        SshKey_RemoveResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Statistic_GetCpuDetailsResponse:
+            properties:
+                date:
+                    type: array
+                    items:
+                        type: string
+                user:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                nice:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                system:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                idle:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                iowait:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                irq:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                softirq:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+        Statistic_GetCpuResponse:
+            properties:
+                cpu:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+        Statistic_GetDiskResponse:
+            properties:
+                data_read:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+                data_write:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+        Statistic_GetDiskUsageResponse:
+            properties:
+                disk_usage:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+        Statistic_GetLoadAverageResponse:
+            properties:
+                date:
+                    type: array
+                    items:
+                        type: string
+                la1:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                la5:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+                la15:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+        Statistic_GetMemoryResponse:
+            properties:
+                memory:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+        Statistic_GetNetworkResponse:
+            properties:
+                data_rx:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+                data_tx:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+                data_rx_private:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+                data_tx_private:
+                    $ref: '#/components/schemas/Statistic_SeriesData'
+        Statistic_GetProcessListResponse:
+            properties:
+                processes:
+                    $ref: '#/components/schemas/Statistic_GetProcessListResponse_ProcessList'
+                error:
+                    $ref: '#/components/schemas/Statistic_GetProcessListResponse_Error'
+        Statistic_GetProcessListResponse_Error:
+            properties:
+                code:
+                    type: string
+                    format: enum
+                message:
+                    type: string
+        Statistic_GetProcessListResponse_ProcessList:
+            properties:
+                process:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Statistic_GetProcessListResponse_ProcessList_ProcessInfo'
+        Statistic_GetProcessListResponse_ProcessList_ProcessInfo:
+            properties:
+                pid:
+                    type: integer
+                    format: uint32
+                nice:
+                    type: integer
+                    format: int32
+                virt:
+                    type: string
+                    format: uint64
+                rss:
+                    type: string
+                    format: uint64
+                state:
+                    type: string
+                cpu_percent:
+                    type: number
+                    format: float
+                mem_percent:
+                    type: number
+                    format: float
+                time_running:
+                    type: number
+                    format: float
+                name:
+                    type: string
+                user:
+                    type: string
+        Statistic_SeriesData:
+            properties:
+                date:
+                    type: array
+                    items:
+                        type: string
+                value:
+                    type: array
+                    items:
+                        type: number
+                        format: double
+        Structures_AdditionalIpInfo:
+            properties:
+                ip:
+                    type: string
+                    description: Дополнительный IP-адрес, принадлежащий пользователю
+                vps_id:
+                    type: string
+                    description: Идентификатор VPS, к которому привязан дополнительный IP-адрес
+        Structures_AttachedPrivateNetwork:
+            properties:
+                network:
+                    $ref: '#/components/schemas/Structures_PrivateNetwork'
+                ip:
+                    type: array
+                    items:
+                        type: string
+                    description: IP адреса из вышеуказанной сети
+        Structures_CopyInfo:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор копии
+                    format: uint64
+                vps_id:
+                    type: string
+                    description: Идентификатор VPS (uuid)
+                vps_name:
+                    type: string
+                    description: Имя VPS, с которого создавалась резервная копия
+                date:
+                    type: string
+                    description: Дата создания копии в RFC3339
+                operating_system:
+                    $ref: '#/components/schemas/Structures_OperatingSystem'
+                size:
+                    type: string
+                    description: Общий размер резервной копии в байтах
+                    format: uint64
+                configuration:
+                    $ref: '#/components/schemas/Structures_CopyInfo_Configuration'
+        Structures_CopyInfo_Configuration:
+            properties:
+                cpu_count:
+                    type: integer
+                    description: Количество ядер процессора, шт
+                    format: uint32
+                disk_size:
+                    type: integer
+                    description: Объем дисковой квоты, Мб
+                    format: uint32
+                memory:
+                    type: integer
+                    description: Объем оперативной памяти, Мб
+                    format: uint32
+        Structures_FileInfo:
+            properties:
+                is_link:
+                    type: boolean
+                    description: Является ли файл символической ссылкой
+                is_dir:
+                    type: boolean
+                    description: Является ли файл директорией
+                name:
+                    type: string
+                    description: Название файла
+                    format: bytes
+                ext:
+                    type: string
+                    description: Расширение файла, если оно есть
+                    format: bytes
+                path:
+                    type: string
+                    description: Путь к файлу
+                    format: bytes
+                owner:
+                    type: string
+                    description: Владелец файла
+                group:
+                    type: string
+                    description: Группа владельца
+                size:
+                    type: string
+                    description: Размер файла в байтах
+                    format: uint64
+                mtime:
+                    type: number
+                    description: Время изменения (unix timestamp)
+                    format: double
+                mtime_str:
+                    type: string
+                    description: Время изменения в читаемом виде
+                mode:
+                    type: string
+                    description: Права на файл, например, "777"
+        Structures_IpInfo:
+            properties:
+                ip:
+                    type: string
+                    description: Основной IP-адрес VPS
+                mac:
+                    type: string
+                    description: MAC-адрес
+                vps_id:
+                    type: string
+                    description: Идентификатор VPS, к которому привязан дополнительный IP-адрес
+        Structures_OperatingSystem:
+            properties:
+                id:
+                    type: integer
+                    description: Идентификатор ОС
+                    format: uint32
+                distro_name:
+                    type: string
+                    description: Системное имя дистрибутива (например, для группировки)
+                distro_display_name:
+                    type: string
+                    description: Отображаемое имя дистрибутива
+                version:
+                    type: string
+                    description: Версия дистрибутива (отображаемое значение)
+                active:
+                    type: boolean
+                    description: Доступна ли ОС для выбора пользователю (визуально)
+                requirements:
+                    $ref: '#/components/schemas/Structures_OperatingSystem_Requirements'
+            description: Описывает ОС для установки на Vps (пара дистрибутив + версия)
+        Structures_OperatingSystem_Requirements:
+            properties:
+                cpu_count:
+                    type: integer
+                    description: Количество ядер процессора, шт
+                    format: uint32
+                disk_size:
+                    type: integer
+                    description: Размер диска, мб
+                    format: uint32
+                memory:
+                    type: integer
+                    description: Объем оперативной памяти, мб
+                    format: uint32
+        Structures_OrderInfo:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор задания
+                    format: uint64
+                vps_id:
+                    type: string
+                    description: Идентификатор VPS (uuid)
+                vps_name:
+                    type: string
+                    description: Имя сервера, на который выполнялось восстановление
+                type:
+                    type: string
+                    description: Тип задания
+                    format: enum
+                date_create:
+                    type: string
+                    description: Дата создания задания (RFC3339)
+                date_complete:
+                    type: string
+                    description: Дата завершения задания (RFC3339)
+                path:
+                    type: array
+                    items:
+                        type: string
+                    description: Список путей для восстановления/скачивания
+                status:
+                    type: string
+                    description: Статус завершения
+                    format: enum
+                copy_info:
+                    $ref: '#/components/schemas/Structures_CopyInfo'
+                affect_live:
+                    type: boolean
+                    description: Операция производится без выключения VPS
+                target:
+                    type: string
+                    description: Директория, в которую производилось восстановление (актуально для выборочного восстановления файлов)
+                error_details:
+                    $ref: '#/components/schemas/Structures_OrderInfo_ErrorDetails'
+        Structures_OrderInfo_ErrorDetails:
+            properties:
+                file_error:
+                    $ref: '#/components/schemas/Structures_OrderInfo_ErrorDetails_FileError'
+        Structures_OrderInfo_ErrorDetails_FileError:
+            properties:
+                error:
+                    type: object
+                    additionalProperties:
+                        type: string
+                        format: enum
+        Structures_PrivateNetwork:
+            properties:
+                id:
+                    type: string
+                    description: Идентификатор сети
+                subnet:
+                    type: string
+                    description: IP адрес подсети, например, 10.0.0.0
+                mask:
+                    type: integer
+                    description: Маска подсети
+                    format: uint32
+        Structures_SshKeyInfo:
+            properties:
+                id:
+                    type: integer
+                    description: Идентификатор ключа
+                    format: uint32
+                name:
+                    type: string
+                    description: Имя ключа (для удобства пользователя)
+                fingerprint:
+                    type: string
+                    description: Отпечаток сохраненного публичного ключа
+            description: Описание публичного ssh-ключа, добавленного пользователем в систему
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+security:
+    - bearerAuth: []
+tags:
+    - name: BackupService
+    - name: ManageService
+    - name: NetworkService
+    - name: SnapshotService
+    - name: SshKeyService
+    - name: StatisticService

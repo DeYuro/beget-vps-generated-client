@@ -7,6 +7,7 @@
 
 namespace app\commands;
 
+use Generated\Client\Auth\Api\AuthServiceApi;
 use yii\console\Controller;
 use yii\console\ExitCode;
 
@@ -30,5 +31,17 @@ class HelloController extends Controller
         echo $message . "\n";
 
         return ExitCode::OK;
+    }
+
+    /**
+     * This command echoes what you have entered as the message.
+     * @param string $message the message to be echoed.
+     * @return int Exit code
+     */
+    public function actionAuth($login, $password)
+    {
+        $service = new AuthServiceApi();
+
+        $a = 1;
     }
 }
