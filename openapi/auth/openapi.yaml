@@ -1,0 +1,149 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/apps/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+servers:
+    - url: https://api.beget.com
+paths:
+    /v1/auth:
+        post:
+            tags:
+                - AuthService
+            description: Запрос авторизации пользователя.
+            operationId: AuthService_Auth
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Auth_AuthRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Auth_AuthResponse'
+    /v1/auth/key:
+        get:
+            tags:
+                - KeyService
+            operationId: KeyService_GetKey
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Key_GetKeyResponse'
+    /v1/auth/logout:
+        post:
+            tags:
+                - AuthService
+            description: 'Выход пользователя. Обязательно наличие токена в заголовках в виде Authorization: BEARER {JWT}'
+            operationId: AuthService_Logout
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Auth_LogoutResponse'
+    /v1/auth/refresh:
+        post:
+            tags:
+                - AuthService
+            description: 'Запрос обновления токена. Обязательно наличие токена в заголовках в виде Authorization: BEARER {JWT}'
+            operationId: AuthService_RefreshToken
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Auth_RefreshTokenResponse'
+    /v1/auth/switch:
+        post:
+            tags:
+                - AuthService
+            description: 'Переключение пользователя. Обязательно наличие токена в заголовках в виде Authorization: BEARER {JWT}'
+            operationId: AuthService_SwitchUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Auth_SwitchUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Auth_SwitchUserResponse'
+components:
+    schemas:
+        Auth_AuthRequest:
+            properties:
+                login:
+                    type: string
+                password:
+                    type: string
+                code:
+                    type: string
+                saveMe:
+                    type: boolean
+        Auth_AuthResponse:
+            properties:
+                token:
+                    type: string
+                    description: oneof{response}
+                error:
+                    type: string
+                    description: oneof{response}
+                    format: enum
+        Auth_LogoutResponse:
+            properties: {}
+        Auth_RefreshTokenResponse:
+            properties:
+                token:
+                    type: string
+                    description: oneof{response}
+                error:
+                    type: string
+                    description: oneof{response}
+                    format: enum
+        Auth_SwitchUserRequest:
+            properties:
+                login:
+                    type: string
+                password:
+                    type: string
+                code:
+                    type: string
+        Auth_SwitchUserResponse:
+            properties:
+                token:
+                    type: string
+                    description: oneof{response}
+                error:
+                    type: string
+                    description: oneof{response}
+                    format: enum
+        Key_GetKeyResponse:
+            properties:
+                key:
+                    type: string
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+security:
+    - bearerAuth: []
+tags:
+    - name: AuthService
+    - name: KeyService
