@@ -21,7 +21,7 @@ mkdir -p $dr/../generated/client/auth
 
 docker run \
  --rm \
-  -v $dr/../openapi/vps:/source \
+  -v $dr/../api/vps:/source \
   -v $dr/../generated/client/vps:/local \
   --user $(id -u):$(id -g) \
   openapitools/openapi-generator-cli generate -g php -i /source/openapi.yaml \
@@ -31,10 +31,10 @@ docker run \
 
 docker run \
  --rm \
-  -v $dr/../openapi/auth:/source \
+  -v $dr/../api/auth:/source \
   -v $dr/../generated/client/auth:/local \
   --user $(id -u):$(id -g) \
   openapitools/openapi-generator-cli generate -g php -i /source/openapi.yaml \
   --additional-properties=packageName=begetauth \
   --additional-properties=invokerPackage=Generated\\Client\\Auth \
-  -o /local \
+  -o /local
