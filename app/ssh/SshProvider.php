@@ -70,11 +70,6 @@ class SshProvider
      */
     public function deleteSsh(int $id): SshKeyRemoveResponse
     {
-        $request = new SshKeyAddRequest();
-        $request
-            ->setPublicKey(self::DUMMY_PUBLIC_KEY)
-            ->setName("php generated client dummy key");
-
         return $this->sshKeyServiceApi->sshKeyServiceRemove($id,"1");
     }
 }
