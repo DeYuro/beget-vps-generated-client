@@ -338,7 +338,7 @@ class Test
      */
     public function reinstallVps(string $uuid, int $osId): void
     {
-        print_r(sprintf("CreateVps request with valid data: Expect: VPS status == %s" . PHP_EOL, VpsProvider::REINSTALLING));
+        print_r(sprintf("ReinstallVps request with valid data: Expect: VPS status == %s" . PHP_EOL, VpsProvider::REINSTALLING));
         $provider = VpsProvider::getInstance();
 
         $response = $provider->reinstallVps($uuid, $osId);
