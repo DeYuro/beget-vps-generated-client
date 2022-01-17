@@ -29,13 +29,6 @@ class VpsProvider
 
     private ManageServiceApi $manageServiceApi;
 
-    public const INVALID_HOSTNAME = "INVALID_HOSTNAME";
-    public const REMOVING = "REMOVING";
-    public const CREATING = "CREATING";
-    public const RUNNING = "RUNNING";
-    public const RESTARTING = "RESTARTING";
-    public const REINSTALLING = "REINSTALLING";
-
     private function __construct(string $jwt)
     {
         $config = new Configuration();
