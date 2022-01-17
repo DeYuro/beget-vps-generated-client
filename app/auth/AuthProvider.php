@@ -11,8 +11,6 @@ use GuzzleHttp\Client;
 
 class AuthProvider
 {
-    public const INCORRECT_CREDENTIALS = "INCORRECT_CREDENTIALS";
-    public const EMPTY_LOGIN = "EMPTY_LOGIN";
     private static ?AuthProvider $instance = null;
 
     private AuthServiceApi $authServiceApi;

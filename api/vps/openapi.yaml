@@ -1208,9 +1208,14 @@ components:
         Backup_RestoreFileResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_MODE
+                        - INVALID_PATH_LIST
+                        - ALREADY_RESTORING
+                        - INVALID_TARGET
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1232,9 +1237,12 @@ components:
         Backup_RestoreServerResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - ALREADY_RESTORING
+                        - CONFIGURATION_NOT_ENOUGH
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1255,9 +1263,11 @@ components:
         Manage_AttachIpAddressResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - GUEST_OS_ADD_IP_ADDRESS_FAILED
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1270,8 +1280,10 @@ components:
         Manage_AttachSshKeyResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_AttachToPrivateNetworkRequest:
@@ -1294,9 +1306,16 @@ components:
         Manage_AttachToPrivateNetworkResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - GUEST_OS_ERROR
+                        - NO_AVAILABLE_ADDRESSES
+                        - INVALID_ADDRESS
+                        - ADDRESS_SUBNET_MISMATCH
+                        - ADDRESS_ALREADY_RESERVED
+                        - ADDRESS_UNAVAILABLE
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1317,8 +1336,14 @@ components:
         Manage_ChangeConfigurationResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
+                        - INSUFFICIENT_FUNDS
+                        - INVALID_CONFIGURATION
+                        - TEMPORARILY_UNAVAILABLE
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_ChangeSshAccessRequest:
@@ -1338,9 +1363,11 @@ components:
         Manage_ChangeSshAccessResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - GUEST_OS_ERROR
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1362,9 +1389,15 @@ components:
         Manage_CheckSoftwareRequirementsResponse_Error:
             properties:
                 wordpress_error:
+                    enum:
+                        - _
+                        - DOMAIN_NOT_REGISTERED
+                        - WRONG_NS_RECORD
+                        - DOMAIN_NOT_DELEGATED
+                        - INVALID_DOMAIN
+                        - DOMAIN_IS_NEW
                     type: string
                     description: oneof{type}
-                    format: enum
         Manage_CreateVpsRequest:
             properties:
                 display_name:
@@ -1418,8 +1451,28 @@ components:
         Manage_CreateVpsResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_DISPLAY_NAME
+                        - INVALID_HOSTNAME
+                        - INVALID_PARAMS
+                        - INSUFFICIENT_FUNDS
+                        - SERVICE_DISABLED
+                        - INVALID_SECURITY_CONFIGURATION
+                        - INVALID_PASSWORD
+                        - TEMPORARILY_UNAVAILABLE
+                        - SOFTWARE_INVALID_TYPE
+                        - SOFTWARE_NOT_ENOUGH_RESOURCES
+                        - SOFTWARE_VARIABLE_REQUIRED
+                        - SOFTWARE_VARIABLE_INVALID
+                        - SNAPSHOT_NOT_DONE
+                        - SNAPSHOT_NOT_ENOUGH_CONFIGURATION
+                        - INVALID_PRIVATE_NETWORK_CONFIGURATION
+                        - INVALID_ADDRESS
+                        - ADDRESS_SUBNET_MISMATCH
+                        - ADDRESS_ALREADY_RESERVED
+                        - ADDRESS_UNAVAILABLE
                     type: string
-                    format: enum
                 message:
                     type: string
                 variable_error:
@@ -1442,9 +1495,11 @@ components:
         Manage_DetachFromPrivateNetworkResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - GUEST_OS_ERROR
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1457,9 +1512,11 @@ components:
         Manage_DetachIpAddressResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - GUEST_OS_REMOVE_IP_ADDRESS_FAILED
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1472,8 +1529,10 @@ components:
         Manage_DetachSshKeyResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_GetAvailableConfigurationResponse:
@@ -1507,9 +1566,11 @@ components:
                     type: string
                     description: Версия (напр. 1.0.1)
                 type:
+                    enum:
+                        - PANEL
+                        - SOFTWARE
                     type: string
                     description: Тип ПО (панель управления, обычное ПО)
-                    format: enum
                 description:
                     type: string
                     description: Описание ПО
@@ -1565,9 +1626,11 @@ components:
         Manage_GetFileManagerSettingsResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - SSH_ACCESS_NOT_ALLOWED
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -1599,16 +1662,22 @@ components:
                     type: string
                     description: Версия (напр. 1.0.1)
                 type:
+                    enum:
+                        - PANEL
+                        - SOFTWARE
                     type: string
                     description: Тип ПО (панель управления, обычное ПО)
-                    format: enum
                 address:
                     type: string
                     description: Адрес для доступа к ПО через http
                 status:
+                    enum:
+                        - PENDING
+                        - INSTALLING
+                        - INSTALLED
+                        - ERROR
                     type: string
                     description: Статус процесса установки ПО
-                    format: enum
         Manage_GetListResponse:
             properties:
                 vps:
@@ -1627,8 +1696,19 @@ components:
                     type: string
                     description: Идентификатор Vps (uuid)
                 status:
+                    enum:
+                        - UNKNOWN
+                        - CREATING
+                        - RUNNING
+                        - STOPPING
+                        - RESTARTING
+                        - REMOVING
+                        - REMOVED
+                        - STOPPED
+                        - STARTING
+                        - RECONFIGURING
+                        - REINSTALLING
                     type: string
-                    format: enum
                 rescue_mode:
                     type: boolean
                     description: Включен rescue-режим
@@ -1655,8 +1735,16 @@ components:
                 date:
                     type: string
                 type:
+                    enum:
+                        - UNKNOWN
+                        - CREATE
+                        - START
+                        - STOP
+                        - RESTART
+                        - REINSTALL
+                        - RECONFIGURE
+                        - REMOVE
                     type: string
-                    format: enum
                 has_error:
                     type: boolean
         Manage_PrivateNetworkInfo:
@@ -1676,8 +1764,11 @@ components:
         Manage_RebootVpsResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_ReinstallRequest:
@@ -1712,8 +1803,19 @@ components:
         Manage_ReinstallResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
+                        - INVALID_CONFIGURATION
+                        - INVALID_SECURITY_CONFIGURATION
+                        - INVALID_PASSWORD
+                        - SOFTWARE_INVALID_TYPE
+                        - SOFTWARE_NOT_ENOUGH_RESOURCES
+                        - INVALID_PARAMS
+                        - SOFTWARE_VARIABLE_REQUIRED
+                        - SOFTWARE_VARIABLE_INVALID
                     type: string
-                    format: enum
                 message:
                     type: string
                 variable_error:
@@ -1736,8 +1838,11 @@ components:
         Manage_RemoveVpsResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_ResetPasswordResponse:
@@ -1749,8 +1854,10 @@ components:
         Manage_ResetPasswordResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_ResetVpsResponse:
@@ -1762,8 +1869,11 @@ components:
         Manage_ResetVpsResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_SoftwareInstallInfo:
@@ -1786,8 +1896,11 @@ components:
         Manage_StartRescueResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_StartVpsResponse:
@@ -1799,8 +1912,11 @@ components:
         Manage_StartVpsResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_StopRescueResponse:
@@ -1812,8 +1928,11 @@ components:
         Manage_StopRescueResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_StopVpsResponse:
@@ -1825,8 +1944,11 @@ components:
         Manage_StopVpsResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_STATE
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_UnarchiveResponse:
@@ -1856,8 +1978,12 @@ components:
         Manage_UpdateInfoResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_DISPLAY_NAME
+                        - INVALID_HOSTNAME
+                        - SERVICE_DISABLED
                     type: string
-                    format: enum
                 message:
                     type: string
         Manage_VpsConfiguration:
@@ -1912,9 +2038,20 @@ components:
                 configuration:
                     $ref: '#/components/schemas/Manage_VpsConfiguration'
                 status:
+                    enum:
+                        - UNKNOWN
+                        - CREATING
+                        - RUNNING
+                        - STOPPING
+                        - RESTARTING
+                        - REMOVING
+                        - REMOVED
+                        - STOPPED
+                        - STARTING
+                        - RECONFIGURING
+                        - REINSTALLING
                     type: string
                     description: Текущий статус Vps
-                    format: enum
                 ssh_keys:
                     type: array
                     items:
@@ -1988,9 +2125,11 @@ components:
         Network_CreatePrivateNetworkResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - LIMIT_REACHED
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -2026,9 +2165,13 @@ components:
         Network_OrderIpAddressResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INSUFFICIENT_FUNDS
+                        - CUSTOMER_IP_LIMIT_REACHED
+                        - GUEST_OS_ADD_IP_ADDRESS_FAILED
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -2042,9 +2185,11 @@ components:
         Network_RemoveIpAddressResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - GUEST_OS_REMOVE_IP_ADDRESS_FAILED
                     type: string
                     description: Код ошибки
-                    format: enum
                 message:
                     type: string
                     description: Сообщение об ошибке
@@ -2099,8 +2244,12 @@ components:
                 message:
                     type: string
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - ALREADY_CREATING
+                        - INSUFFICIENT_FUNDS
+                        - UNSUITABLE_VPS_STATUS
                     type: string
-                    format: enum
         Snapshot_EditRequest:
             properties:
                 id:
@@ -2137,8 +2286,11 @@ components:
                 message:
                     type: string
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - SNAPSHOT_NOT_DONE
+                        - SNAPSHOT_IS_RESTORING
                     type: string
-                    format: enum
         Snapshot_RequiredConfiguration:
             properties:
                 cpu_count:
@@ -2168,9 +2320,11 @@ components:
                     type: string
                     description: target vps name
                 target_type:
+                    enum:
+                        - EXISTING_VPS
+                        - NEW_VPS
                     type: string
                     description: 'restore type: existing or new vps'
-                    format: enum
                 date_create:
                     type: string
                     description: start restore datetime (RFC3339)
@@ -2178,9 +2332,11 @@ components:
                     type: string
                     description: finish restore datetime (RFC3339)
                 status:
+                    enum:
+                        - PROCESSING
+                        - COMPLETED
                     type: string
                     description: current restore status
-                    format: enum
         Snapshot_RestoreRequest:
             properties:
                 id:
@@ -2201,8 +2357,12 @@ components:
                 message:
                     type: string
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - SNAPSHOT_NOT_DONE
+                        - CONFIGURATION_NOT_ENOUGH
+                        - UNSUITABLE_VPS_STATUS
                     type: string
-                    format: enum
         Snapshot_Snapshot:
             properties:
                 id:
@@ -2223,9 +2383,13 @@ components:
                     description: bytes
                     format: uint64
                 status:
+                    enum:
+                        - CREATING
+                        - DONE
+                        - RESTORING
+                        - DELETED
                     type: string
                     description: current snapshot status
-                    format: enum
                 operating_system:
                     $ref: '#/components/schemas/Structures_OperatingSystem'
                 description:
@@ -2254,8 +2418,12 @@ components:
         SshKey_AddResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - INVALID_NAME
+                        - KEY_EXISTS
+                        - INVALID_PUBLIC_KEY
                     type: string
-                    format: enum
                 message:
                     type: string
         SshKey_GetAllResponse:
@@ -2273,8 +2441,10 @@ components:
         SshKey_RemoveResponse_Error:
             properties:
                 code:
+                    enum:
+                        - INTERNAL_ERROR
+                        - KEY_IN_USE
                     type: string
-                    format: enum
                 message:
                     type: string
         Statistic_GetCpuDetailsResponse:
@@ -2376,8 +2546,10 @@ components:
         Statistic_GetProcessListResponse_Error:
             properties:
                 code:
+                    enum:
+                        - _
+                        - GUEST_AGENT_UNAVAILABLE
                     type: string
-                    format: enum
                 message:
                     type: string
         Statistic_GetProcessListResponse_ProcessList:
@@ -2579,9 +2751,11 @@ components:
                     type: string
                     description: Имя сервера, на который выполнялось восстановление
                 type:
+                    enum:
+                        - DOWNLOAD
+                        - RESTORE
                     type: string
                     description: Тип задания
-                    format: enum
                 date_create:
                     type: string
                     description: Дата создания задания (RFC3339)
@@ -2594,9 +2768,13 @@ components:
                         type: string
                     description: Список путей для восстановления/скачивания
                 status:
+                    enum:
+                        - PROCESSING
+                        - COMPLETED
+                        - ERROR
+                        - COMPLETED_PARTIALLY
                     type: string
                     description: Статус завершения
-                    format: enum
                 copy_info:
                     $ref: '#/components/schemas/Structures_CopyInfo'
                 affect_live:
@@ -2616,8 +2794,12 @@ components:
                 error:
                     type: object
                     additionalProperties:
+                        enum:
+                            - INTERNAL_ERROR
+                            - PERMISSION_DENIED
+                            - FILE_EXISTS
+                            - DISK_QUOTA_EXCEEDED
                         type: string
-                        format: enum
         Structures_PrivateNetwork:
             properties:
                 id:

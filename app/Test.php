@@ -12,6 +12,9 @@ use Generated\Client\Vps\ApiException as VpsApiException;
 use Generated\Client\Vps\Model\ManageVpsConfiguration;
 use Generated\Client\Vps\Model\ManageVpsInfo;
 use Generated\Client\Vps\Model\StructuresOperatingSystem;
+use Generated\Client\Auth\Model\AuthAuthResponse;
+use Generated\Client\Vps\Model\ManageCreateVpsResponseError;
+use Generated\Client\Vps\Model\ManageGetStatusesResponseStatusInfo;
 
 class Test
 {
@@ -75,13 +78,13 @@ class Test
      */
     private function wrongDataAuth(): void
     {
-        print_r(sprintf("Auth wrong credential request: Expect %s error" . PHP_EOL, AuthProvider::INCORRECT_CREDENTIALS));
+        print_r(sprintf("Auth wrong credential request: Expect %s error" . PHP_EOL, AuthAuthResponse::ERROR_INCORRECT_CREDENTIALS));
         $authTest = AuthProvider::getInstance();
         $response = $authTest->auth("wrong", "credential");
         print_r("Response\n$response" . PHP_EOL);
 
-        if ($response->getError() != AuthProvider::INCORRECT_CREDENTIALS) {
-            throw new Exception(sprintf("Expect %s error got %s" . PHP_EOL, AuthProvider::INCORRECT_CREDENTIALS,$response->getError()));
+        if ($response->getError() != AuthAuthResponse::ERROR_INCORRECT_CREDENTIALS) {
+            throw new Exception(sprintf("Expect %s error got %s" . PHP_EOL, AuthAuthResponse::ERROR_INCORRECT_CREDENTIALS,$response->getError()));
         }
     }
 
@@ -91,13 +94,13 @@ class Test
      */
     private function emptyLoginAuth(): void
     {
-        print_r(sprintf("Empty login auth request: Expect %s error" . PHP_EOL, AuthProvider::EMPTY_LOGIN));
+        print_r(sprintf("Empty login auth request: Expect %s error" . PHP_EOL, AuthAuthResponse::ERROR_EMPTY_LOGIN));
         $authTest = AuthProvider::getInstance();
         $response = $authTest->auth("", "emptyLogin");
         print_r("Response\n$response" . PHP_EOL);
 
-        if ($response->getError() != AuthProvider::EMPTY_LOGIN) {
-            throw new Exception(sprintf("Expect %s error got %s" . PHP_EOL, AuthProvider::EMPTY_LOGIN,$response->getError()));
+        if ($response->getError() != AuthAuthResponse::ERROR_EMPTY_LOGIN) {
+            throw new Exception(sprintf("Expect %s error got %s" . PHP_EOL, AuthAuthResponse::ERROR_EMPTY_LOGIN,$response->getError()));
         }
     }
 
@@ -214,15 +217,15 @@ class Test
      */
     public function createVpsInvalidHostname(string $configId, int $osId):void
     {
-        print_r(sprintf("CreateVps request with invalid hostname: Expect %s error" . PHP_EOL, VpsProvider::INVALID_HOSTNAME));
+        print_r(sprintf("CreateVps request with invalid hostname: Expect %s error" . PHP_EOL, ManageCreateVpsResponseError::CODE_INVALID_HOSTNAME));
         $provider = VpsProvider::getInstance();
 
         $response = $provider->createVps("Invalid:Host?Name", $configId, $osId);
 
         print_r("Response\n$response" . PHP_EOL);
 
-        if ($response->getError()->getCode() !== VpsProvider::INVALID_HOSTNAME) {
-            throw new Exception(sprintf("Expect %s error got %s" . PHP_EOL, VpsProvider::INVALID_HOSTNAME,$response->getError()->getCode()));
+        if ($response->getError()->getCode() !== ManageCreateVpsResponseError::CODE_INVALID_HOSTNAME) {
+            throw new Exception(sprintf("Expect %s error got %s" . PHP_EOL, ManageCreateVpsResponseError::CODE_INVALID_HOSTNAME),$response->getError()->getCode());
         }
     }
 
@@ -232,15 +235,15 @@ class Test
      */
     public function createVps(string $configId, int $osId): ManageVpsInfo
     {
-        print_r(sprintf("CreateVps request with valid data: Expect: VPS status == %s" . PHP_EOL, VpsProvider::CREATING));
+        print_r(sprintf("CreateVps request with valid data: Expect: VPS status == %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_CREATING));
         $provider = VpsProvider::getInstance();
 
         $response = $provider->createVps("validhostname", $configId, $osId);
 
         print_r("Response\n$response" . PHP_EOL);
 
-        if ($response->getVps()->getStatus() !== VpsProvider::CREATING) {
-            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, VpsProvider::CREATING,$response->getVps()->getStatus()));
+        if ($response->getVps()->getStatus() !== ManageGetStatusesResponseStatusInfo::STATUS_CREATING) {
+            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_CREATING, $response->getVps()->getStatus()));
         }
 
         return $response->getVps();
@@ -252,15 +255,15 @@ class Test
      */
     private function removeVps(string $uuid): void
     {
-        print_r(sprintf("RemoveVps request: Expect vps status == %s" . PHP_EOL, VpsProvider::REMOVING));
+        print_r(sprintf("RemoveVps request: Expect vps status == %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_REMOVING));
 
         $provider = VpsProvider::getInstance();
 
         $response = $provider->removeVps($uuid);
         print_r("Response\n$response" . PHP_EOL);
 
-        if ($response->getVps()->getStatus() !== VpsProvider::REMOVING) {
-            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, VpsProvider::REMOVING, $response->getVps()->getStatus()));
+        if ($response->getVps()->getStatus() !== ManageGetStatusesResponseStatusInfo::STATUS_REMOVING) {
+            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_REMOVING, $response->getVps()->getStatus()));
         }
     }
 
@@ -270,12 +273,12 @@ class Test
      */
     private function checkRunning(string $uuid, string $after): void
     {
-        print_r(sprintf("Check VpsInfo after $after vps by uuid: Expect Vps with %s exist and status is %s" . PHP_EOL, $uuid, VpsProvider::RUNNING));
+        print_r(sprintf("Check VpsInfo after $after vps by uuid: Expect Vps with %s exist and status is %s" . PHP_EOL, $uuid, ManageGetStatusesResponseStatusInfo::STATUS_RUNNING));
 
         $vps = $this->getVpsInfo($uuid);
 
-        if ($vps->getStatus() !== VpsProvider::RUNNING) {
-            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, VpsProvider::REMOVING, $vps->getStatus()));
+        if ($vps->getStatus() !== ManageGetStatusesResponseStatusInfo::STATUS_RUNNING) {
+            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_RUNNING, $vps->getStatus()));
         }
     }
 
@@ -292,7 +295,7 @@ class Test
         print_r("Response\n$response" . PHP_EOL);
 
         if ($response->getVps() === null) {
-            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, VpsProvider::REMOVING, $response->getVps()->getStatus()));
+            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_RUNNING, $response->getVps()->getStatus()));
         }
     }
 
@@ -320,15 +323,15 @@ class Test
      */
     private function rebootVps(string $uuid): void
     {
-        print_r(sprintf("RebootVps request: Expect vps status == %s" . PHP_EOL, VpsProvider::RESTARTING));
+        print_r(sprintf("RebootVps request: Expect vps status == %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_RESTARTING));
 
         $provider = VpsProvider::getInstance();
 
         $response = $provider->rebootVps($uuid);
         print_r("Response\n$response" . PHP_EOL);
 
-        if ($response->getVps()->getStatus() !== VpsProvider::RESTARTING) {
-            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, VpsProvider::RESTARTING, $response->getVps()->getStatus()));
+        if ($response->getVps()->getStatus() !== ManageGetStatusesResponseStatusInfo::STATUS_RESTARTING) {
+            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_RESTARTING, $response->getVps()->getStatus()));
         }
     }
 
@@ -338,15 +341,15 @@ class Test
      */
     public function reinstallVps(string $uuid, int $osId): void
     {
-        print_r(sprintf("ReinstallVps request with valid data: Expect: VPS status == %s" . PHP_EOL, VpsProvider::REINSTALLING));
+        print_r(sprintf("ReinstallVps request with valid data: Expect: VPS status == %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_REINSTALLING));
         $provider = VpsProvider::getInstance();
 
         $response = $provider->reinstallVps($uuid, $osId);
 
         print_r("Response\n$response" . PHP_EOL);
 
-        if ($response->getVps()->getStatus() !== VpsProvider::REINSTALLING) {
-            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, VpsProvider::REINSTALLING,$response->getVps()->getStatus()));
+        if ($response->getVps()->getStatus() !== ManageGetStatusesResponseStatusInfo::STATUS_REINSTALLING) {
+            throw new Exception(sprintf("Expect: VPS status == %s got %s" . PHP_EOL, ManageGetStatusesResponseStatusInfo::STATUS_REINSTALLING,$response->getVps()->getStatus()));
         }
     }
 

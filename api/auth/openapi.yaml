@@ -102,9 +102,22 @@ components:
                     type: string
                     description: oneof{response}
                 error:
+                    enum:
+                        - INTERNAL_ERROR
+                        - EMPTY_LOGIN
+                        - EMPTY_PASSWORD
+                        - INCORRECT_CREDENTIALS
+                        - IP_BLOCKED
+                        - CODE_REQUIRED
+                        - INCORRECT_CODE
+                        - CODE_SENT_LIMIT
+                        - CODE_INPUT_LIMIT
+                        - ACCOUNT_ON_MAINTANCE
+                        - ACCOUNT_DELETED
+                        - CODE_REQUIRED_EMAIL
+                        - CODE_REQUIRED_SMS
                     type: string
                     description: oneof{response}
-                    format: enum
         Auth_LogoutResponse:
             properties: {}
         Auth_RefreshTokenResponse:
@@ -113,9 +126,15 @@ components:
                     type: string
                     description: oneof{response}
                 error:
+                    enum:
+                        - INTERNAL_ERROR
+                        - PAYLOAD_CHANGED
+                        - IP_BLOCKED
+                        - ACCOUNT_ON_MAINTANCE
+                        - ACCOUNT_DELETED
+                        - TOKEN_REVOKED
                     type: string
                     description: oneof{response}
-                    format: enum
         Auth_SwitchUserRequest:
             properties:
                 login:
@@ -130,9 +149,24 @@ components:
                     type: string
                     description: oneof{response}
                 error:
+                    enum:
+                        - INTERNAL_ERROR
+                        - EMPTY_TARGET_LOGIN
+                        - TARGET_FORBIDDEN
+                        - TARGET_NOT_FOUND
+                        - TARGET_PASSWORD_REQUIRED
+                        - TARGET_CODE_REQUIRED
+                        - TARGET_INCORRECT_CODE
+                        - SENT_LIMIT_REACHED
+                        - INPUT_LIMIT_REACHED
+                        - TARGET_ON_MAINTENANCE
+                        - TARGET_DELETED
+                        - TOKEN_REVOKED
+                        - CODE_REQUIRED_EMAIL
+                        - CODE_REQUIRED_SMS
+                        - IP_BLOCKED
                     type: string
                     description: oneof{response}
-                    format: enum
         Key_GetKeyResponse:
             properties:
                 key:
